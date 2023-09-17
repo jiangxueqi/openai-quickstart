@@ -3,6 +3,16 @@
 class Prompt(object):
 
     @staticmethod
+    def format_single_prompt():
+        prompt = """
+                你是一个翻译专家，精通各种语言。
+                请按照一定的翻译风格，将{source_languange}翻译为{target_language},
+                翻译风格如下：{style_template},
+                翻译的内容如下：{text}
+                """
+        return prompt
+
+    @staticmethod
     def format_system_message_prompt():
         """
         翻译任务指令始终由 System 角色承担

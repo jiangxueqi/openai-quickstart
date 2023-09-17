@@ -1,13 +1,13 @@
 from typing import Optional
 
 from domain.pdf_parser.pdf_parser import PDFParser
-from domain.translator.translation_chain import TranslationChain
 from domain.translator.writer import Writer
+from factory.TranslationChainFactory import TranslationChainFactory
 
 
 class PDFTranslator:
     def __init__(self, model_name: str):
-        self.translate_chain = TranslationChain(model_name)
+        self.translate_chain = TranslationChainFactory(model_name)
         self.pdf_parser = PDFParser()
         self.writer = Writer()
 

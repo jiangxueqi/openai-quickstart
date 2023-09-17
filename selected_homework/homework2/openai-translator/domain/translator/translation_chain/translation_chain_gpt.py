@@ -4,14 +4,14 @@ from langchain import LLMChain
 from langchain.chat_models import ChatOpenAI
 from domain.translator.prompt import Prompt
 from langchain.prompts.chat import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate
+from domain.translator.translation_chain.translation_chain import TranslationChain
 
-from infrastructure.logger.logger import logger
 
+class Translation_Chain_GPT(TranslationChain):
 
-class TranslationChain(object):
     def __init__(self, model_name="gpt-3.5-turbo", verbose=False):
         os.environ["OPENAI_API_KEY"] = ""
-        self.chain = self._format_chain(model_name, verbose)
+        super().__init__(model_name=model_name, verbose=verbose)
 
     def _format_chain(self, model_name, verbose):
         system_message_prompt = Prompt.format_system_message_prompt()
@@ -23,19 +23,3 @@ class TranslationChain(object):
         )
         chat = ChatOpenAI(model_name=model_name, temperature=0, verbose=verbose)
         return LLMChain(llm=chat, prompt=chat_prompt_template, verbose=verbose)
-
-    def run(self, text, style_template, source_language, target_language):
-        result = ""
-        try:
-            result = self.chain.run({
-                "text": text,
-                "style_template":style_template,
-                "source_language": source_language,
-                "target_language": target_language,
-            })
-        except Exception as e:
-            logger.error(f"An error occurred during translation: {e}")
-            return result, False
-        return result, True
-
-
