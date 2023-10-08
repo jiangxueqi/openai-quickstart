@@ -1,4 +1,3 @@
-import os
 import gradio as gr
 from domain.factory.robot_factory import SaleRobotFactory
 
