@@ -20,9 +20,17 @@ class SaleRobot(object):
         answer = self.qa_chain({"query": message})
         if answer.get('source_documents'):
             logger.info(f"[source_documents]：{answer.get('source_documents')}")
-            return answer.get('source_documents')
+            ans_list = [doc.page_content.split("[销售回答] ")[-1] for doc in answer.get('source_documents')]
+            return ans_list[0]
         elif answer.get('result'):
             logger.info(f"[result]：{answer.get('result')}")
             return answer.get('result')
         else:
             return "很抱歉，这个问题暂时没有答案，请重新提问！"
+
+if __name__ == "__main__":
+    sale_robot = SaleRobot()
+    message = "附近有医院吗?"
+    history = []
+    result = sale_robot.chat(message, history)
+    print(result)
